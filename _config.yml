@@ -17,7 +17,7 @@ title: Professional C++
 email: dboutcher@ocient.com
 description: >- # this means to ignore newlines until "baseurl:"
   Professional and practical C++
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: daveboutcher
 github_username:  daveboutcher
