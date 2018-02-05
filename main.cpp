@@ -3,26 +3,38 @@
 #include <SDL2/SDL_image.h>
 
 int main(int argc, char **argv) {
-	SDL_Surface *surface1 = IMG_Load("heart.bmp");
-
-	if (!surface1) {
-		std::cout << "failed to read heart.bmp: " << SDL_GetError() << std::endl;
-		return 0;
-	}
-
-	SDL_Surface* fmtsurf = SDL_CreateRGBSurfaceWithFormat(0, surface1->w, surface1->h, 32, SDL_PIXELFORMAT_RGB888);
-    if (fmtsurf == NULL) {
-        SDL_Log("SDL_CreateRGBSurfaceWithFormat() failed: %s", SDL_GetError());
-        exit(1);
+    SDL_Init(SDL_INIT_VIDEO);
+    
+    SDL_Surface *surface = IMG_Load("heart.bmp");
+    
+    if (!surface) {
+        std::cout << "failed to read heart.bmp: " << SDL_GetError() << std::endl;
+        return 0;
     }
+    
+    SDL_PixelFormat *format = surface->format;
+    
+    std::cout << "h:" << surface->h << " w:" << surface->w << " pitch:" << surface->pitch << " format: " << SDL_GetPixelFormatName(format->format) << " BitsPerPixel:" << (int)format->BitsPerPixel << " BytesPerPixel:" << (int)format->BytesPerPixel << " Rmask " << std::hex << format->Rmask << " Gmask " << format->Gmask << " Bmask " << format->Bmask << " Amask " << format->Amask << std::endl;
 
-	SDL_Surface *surface = SDL_ConvertSurface(surface1, fmtsurf->format, 0);
+    SDL_LockSurface(surface);
 
-	SDL_PixelFormat *format = surface->format;
+    using x = uint32_t[surface->h][surface->w];
+    x d;
+    auto dp = &d;
 
-	std::cout << "h:" << surface->h << " w:" << surface->w << " pitch:" << surface->pitch << " format: " << SDL_GetPixelFormatName(format->format) << " BitsPerPixel:" << (int)format->BitsPerPixel << " BytesPerPixel:" << (int)format->BytesPerPixel << " Rmask " << format->Rmask << std::endl;
+    auto data = static_cast<decltype(dp)>(surface->pixels);
 
-	SDL_FreeSurface(surface);
+    for (size_t i=0; i<surface->h; i++) {
+        for (size_t j=0; j< surface->w; j++) 
+            std::cout << std::hex << ((*data)[i][j] & 0x00ffffffff) << " ";
+        std::cout << std::endl;
+    }
+  
+    SDL_UnlockSurface(surface);
+    
+    SDL_FreeSurface(surface);
+
+    SDL_Quit();
     return 0;
 }
 
