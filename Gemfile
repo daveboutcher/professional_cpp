@@ -1,3 +1,8 @@
+#
+# To update: bundle update
+#
+# To run locally: bundle exec jekyll serve
+
 source "https://rubygems.org"
 
 # Hello! This is where you manage which Jekyll version is used to run.
