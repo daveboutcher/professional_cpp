@@ -7,6 +7,7 @@
  ***********************************************************************/
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "cdl/window.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,16 +17,12 @@ int main(int argc, char *argv[])
     int window_width = 480;
     int window_height = 480;
 
-    // Create a window
-    SDL_Window* window = SDL_CreateWindow("Cards",
-                                          SDL_WINDOWPOS_CENTERED,
-                                          SDL_WINDOWPOS_CENTERED,
-                                          window_width,
-                                          window_height,
-                                          SDL_WINDOW_SHOWN);
+	auto cwindow = cdl::Window("Cards",
+							   cdl::position{SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED},
+							   cdl::size{window_width, window_height});
     
     // Create a renderer for the window
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1,
+    SDL_Renderer* renderer = SDL_CreateRenderer(cwindow.m_window, -1,
                                                 SDL_RENDERER_ACCELERATED);
     
     // Load the four images
@@ -98,7 +95,6 @@ int main(int argc, char *argv[])
     SDL_FreeSurface(spade_surface);
     
     SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
 }
