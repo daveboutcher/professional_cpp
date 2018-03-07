@@ -24,6 +24,7 @@ github_username:  daveboutcher
 
 # Build settings
 markdown: kramdown
+
 theme: jekyll-theme-hacker
 plugins:
   - jekyll-feed

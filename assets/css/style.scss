@@ -8,3 +8,23 @@
   max-width: 900px;
   margin: 0 auto;
 }
+
+.note {
+	border: #b5e853 1px solid;
+	padding: 5px;
+	background-color: #333333;
+}
+				
+.box {
+	border: #b5e853 1px solid;
+	padding: 5px;
+}
+				
+footer {
+	background: rgba(0, 0, 0, 0.1);
+	font-size: 10px;
+	width: 100%;
+	border-top: 1px dashed #b5e853;
+	padding: 20px 0;
+	margin: 0 0 40px 0;
+}
