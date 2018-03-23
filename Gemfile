@@ -2,6 +2,8 @@
 # To update: bundle update
 #
 # To run locally: bundle exec jekyll serve
+#
+# Diagrams via https://www.draw.io/
 
 source "https://rubygems.org"
 
