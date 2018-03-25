@@ -5,6 +5,7 @@
  * International License. Details at 
  * http://creativecommons.org/licenses/by/4.0/
  ***********************************************************************/
+#include <vector>
 #include <iostream>
 #include "cdl/cdl.h" // includes the "running()" method
 #include "cdl/window.h"
@@ -24,48 +25,25 @@ int main(int argc, char *argv[])
 										 cdl::size{480, 480});
 
 		cdl::Renderer renderer = window.createRenderer();
-		
-		// Load the four images
-		cdl::Surface club_surface = cdl::Surface("club.png");
-		cdl::Texture club_texture = renderer.createTexture(club_surface);
-		
-		cdl::Surface diamond_surface = cdl::Surface("diamond.png");
-		cdl::Texture diamond_texture = renderer.createTexture(diamond_surface);
-		
-		cdl::Surface heart_surface = cdl::Surface("heart.png");
-		cdl::Texture heart_texture = renderer.createTexture(heart_surface);
-		
-		cdl::Surface spade_surface = cdl::Surface("spade.png");
-		cdl::Texture spade_texture = renderer.createTexture(spade_surface);
+
+		std::vector<cdl::Texture> cards;
+
+		for (const auto &filename: std::initializer_list<const char *>{"club.png",
+  				                                                       "diamond.png",
+					                                                   "heart.png",
+					                                                   "spade.png"}) {
+			cdl::Surface card_surf = cdl::Surface(filename);
+			cdl::Texture card_text = renderer.createTexture(card_surf);
+			cards.push_back(std::move(card_text));
+		}
 		
 		// This is the main SDL loop
 		while(cdl::running()) {
 
 			renderer.clear();
 
-			// Get the window width
-			int window_width = window.width();
-			
-			// We are going to display 4 images, with padding between them and
-			// on the side...that works out to 5 blocks of padding
-			int padding = ((window_width -
-							(club_texture.size().width + diamond_texture.size().width +
-							 heart_texture.size().width + spade_texture.size().width))
-						   / 5);
-			
-			int currentX = padding;
-			
-			renderer.add(club_texture, cdl::position{currentX, 10});
-			currentX += club_texture.size().width + padding;
-			
-			renderer.add(diamond_texture, cdl::position{currentX, 10});
-			currentX += diamond_texture.size().width + padding;
-			
-			renderer.add(heart_texture, cdl::position{currentX, 10});
-			currentX += heart_texture.size().width + padding;
-			
-			renderer.add(spade_texture, cdl::position{currentX, 10});
-			currentX += spade_texture.size().width + padding;
+			// Add the row of textures at Y position 10
+			renderer.addRow(cards, 10);
 
 			renderer.display();
 		}

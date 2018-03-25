@@ -20,11 +20,25 @@ private:
     }
 
 public:
-    Texture(const Texture &other) = delete;
-
     ~Texture() {
         SDL_DestroyTexture(texture_);
     }
+
+	Texture(const Texture &other) = delete;
+	Texture & operator= (const Texture & other) = delete;
+
+	// Move Constructor
+	Texture (Texture&& other) {
+		texture_ = other.texture_;
+		other.texture_ = nullptr;
+	}
+	
+	// Move assignment operator
+	Texture& operator= (Texture&& other) {
+		texture_ = other.texture_;
+		other.texture_ = nullptr;
+		return *this;
+	}
 
 	cdl::size size() const {
         cdl::size ret;

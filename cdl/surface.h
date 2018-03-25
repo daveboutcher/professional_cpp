@@ -21,6 +21,20 @@ public:
 	}
 
 	Surface(const Surface &other) = delete;
+	Surface & operator= (const Surface & other) = delete;
+
+	// Move Constructor
+	Surface (Surface&& other) {
+		surface_ = other.surface_;
+		other.surface_ = nullptr;
+	}
+	
+	// Move assignment operator
+	Surface& operator= (Surface&& other) {
+		surface_ = other.surface_;
+		other.surface_ = nullptr;
+		return *this;
+	}
 
 	~Surface() {
 		SDL_FreeSurface(surface_);

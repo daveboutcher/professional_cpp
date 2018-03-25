@@ -7,7 +7,7 @@
 
 namespace cdl {
 
-static bool running() {
+inline bool running() {
 	// Loop till we get told to quit
 	SDL_Event event;
 	SDL_PollEvent(&event);

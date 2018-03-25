@@ -3,7 +3,6 @@
 
 #include <SDL2/SDL.h>
 #include <string>
-#include "dimensions.h"
 #include "renderer.h"
 #include "exception.h"
 
@@ -32,12 +31,6 @@ public:
     
     Renderer createRenderer() {
         return Renderer(window_);
-    }
-    
-    int width() const {
-        int w;
-        SDL_GetWindowSize(window_, &w, nullptr);
-        return w;
     }
     
 private:

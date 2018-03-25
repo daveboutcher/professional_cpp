@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include "texture.h"
+#include "dimensions.h"
 #include "exception.h"
 
 namespace cdl {
@@ -34,7 +35,7 @@ public:
 	}
 
 	void add(const Texture &texture, const position &pos) {
-		size s = texture.size();
+		cdl::size s = texture.size();
 		SDL_Rect rect{pos.x, pos.y, s.width, s.height};
 		SDL_RenderCopy(renderer_, texture.texture_, nullptr, &rect);
 	}
@@ -45,6 +46,31 @@ public:
 
 	void display() {
 		SDL_RenderPresent(renderer_);
+	}
+
+	cdl::size size() {
+		SDL_Rect rect;
+		SDL_RenderGetViewport(renderer_, &rect);
+		return cdl::size{rect.w, rect.h};
+	}
+
+	// Add a row of textures at the given Y offset
+	void addRow(const std::vector<cdl::Texture> & textures, int y_pos) {
+		// get the size 
+		cdl::size render_size = size();
+
+		int total_width = 0;
+		for (const auto &t: textures) {
+			total_width += t.size().width;
+		}
+
+		int padding = (render_size.width - total_width) / (textures.size() + 1);
+		
+		int currentX = padding;
+		for (const auto &t: textures) {
+			add(t, position{currentX, y_pos});
+			currentX += t.size().width + padding;
+		}
 	}
 	
 private:
