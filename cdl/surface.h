@@ -20,6 +20,8 @@ public:
 		}
 	}
 
+	Surface(SDL_Surface *surface) : surface_(surface) {}
+
 	Surface(const Surface &other) = delete;
 	Surface & operator= (const Surface & other) = delete;
 
@@ -44,7 +46,7 @@ public:
 		return cdl::size{surface_->w, surface_->h};
 	}
 
-private:
+	// private:
 	friend class Texture;
 	SDL_Surface *surface_;
 };
