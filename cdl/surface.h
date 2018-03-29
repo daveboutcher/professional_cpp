@@ -11,44 +11,45 @@ namespace cdl {
 class Texture;
 
 class Surface {
+    friend class Font;
+    Surface(SDL_Surface *surface) : surface_(surface) {}
+    
 public:
-	Surface(std::string file_name) {
-		surface_ = IMG_Load(file_name.c_str());
-		
-		if (!surface_) {
-			throw exception(SDL_GetError());
-		}
-	}
-
-	Surface(SDL_Surface *surface) : surface_(surface) {}
-
-	Surface(const Surface &other) = delete;
-	Surface & operator= (const Surface & other) = delete;
-
-	// Move Constructor
-	Surface (Surface&& other) {
-		surface_ = other.surface_;
-		other.surface_ = nullptr;
-	}
+    Surface(std::string file_name) {
+        surface_ = IMG_Load(file_name.c_str());
 	
-	// Move assignment operator
-	Surface& operator= (Surface&& other) {
-		surface_ = other.surface_;
-		other.surface_ = nullptr;
-		return *this;
-	}
-
-	~Surface() {
-		SDL_FreeSurface(surface_);
-	}
-
-	cdl::size size() const {
-		return cdl::size{surface_->w, surface_->h};
-	}
-
-	// private:
-	friend class Texture;
-	SDL_Surface *surface_;
+        if (!surface_) {
+            throw exception(SDL_GetError());
+        }
+    }
+    
+    Surface(const Surface &other) = delete;
+    Surface & operator= (const Surface & other) = delete;
+    
+    // Move Constructor
+    Surface (Surface&& other) {
+        surface_ = other.surface_;
+        other.surface_ = nullptr;
+    }
+    
+    // Move assignment operator
+    Surface& operator= (Surface&& other) {
+        surface_ = other.surface_;
+        other.surface_ = nullptr;
+        return *this;
+    }
+    
+    ~Surface() {
+        SDL_FreeSurface(surface_);
+    }
+    
+    cdl::size size() const {
+        return cdl::size{surface_->w, surface_->h};
+    }
+    
+    // private:
+    friend class Texture;
+    SDL_Surface *surface_;
 };
 
 }
